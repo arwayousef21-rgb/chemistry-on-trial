@@ -1,0 +1,71 @@
+/* Fonts are bundled locally (no request to Google from students' browsers). */
+@import '@fontsource/cairo/arabic-500.css';
+@import '@fontsource/cairo/arabic-600.css';
+@import '@fontsource/cairo/arabic-700.css';
+@import '@fontsource/cairo/arabic-800.css';
+@import '@fontsource/cairo/latin-500.css';
+@import '@fontsource/cairo/latin-700.css';
+@import '@fontsource/cairo/latin-800.css';
+@import '@fontsource/inter/latin-500.css';
+@import '@fontsource/inter/latin-600.css';
+@import '@fontsource/inter/latin-700.css';
+@import '@fontsource/inter/latin-800.css';
+@import 'katex/dist/katex.min.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Gradients and decorations flow toward the reading end. */
+    --reading-end: left;
+    color-scheme: light;
+  }
+  :root[dir='ltr'] {
+    --reading-end: right;
+  }
+
+  html {
+    @apply bg-surface text-ink-body antialiased;
+    -webkit-text-size-adjust: 100%;
+  }
+  html[lang='ar'] body {
+    @apply font-arabic;
+    line-height: 1.75;
+  }
+  html[lang='en'] body {
+    @apply font-latin;
+    line-height: 1.6;
+  }
+  body {
+    @apply min-h-screen bg-surface text-body;
+  }
+
+  /* Visible keyboard focus everywhere. */
+  :focus-visible {
+    outline: 3px solid theme('colors.assistant.cta');
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Chemical equations always read left-to-right, even inside Arabic text. */
+  .equation {
+    direction: ltr;
+    unicode-bidi: isolate;
+    display: inline-block;
+  }
+}
