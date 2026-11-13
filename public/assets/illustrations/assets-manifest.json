@@ -69,7 +69,7 @@
   },
   {
     "file": "chemistry/lab-glassware",
-    "purpose": "Decorative laboratory glassware (no experiment depicted)",
+    "purpose": "Decorative laboratory glassware — does not represent an actual experiment",
     "tool": "Blender 5.1.2 (bpy) — Cycles renderer; original models built by script",
     "source": "design/3d-source/glassware.py with design/3d-source/studio.py; post-processed by design/3d-source/finalize.py",
     "master": "design/3d-source/masters/lab-glassware.png",
@@ -78,7 +78,7 @@
     "licence": "Original work created for this project; Blender is free software (GPL) and places no restriction on rendered output",
     "createdBy": "Claude (Claude Code)",
     "createdOn": "2026-11-13",
-    "scientificReview": "pending — decorative glassware; teacher may confirm",
+    "scientificReview": "Owner decision 2026-11-13: keep as decorative artwork, not an experiment",
     "altText": {
       "ar": "أدوات زجاجية مخبرية",
       "en": "Laboratory glassware"
@@ -86,19 +86,20 @@
   },
   {
     "file": "ui/science-decor",
-    "purpose": "Decorative science elements (leaves, molecules, sparkles)",
+    "purpose": "Decorative science elements (leaves, abstract molecular shapes, sparkles)",
     "tool": "Blender 5.1.2 (bpy) — Cycles renderer; original models built by script",
     "source": "design/3d-source/decor.py with design/3d-source/studio.py; post-processed by design/3d-source/finalize.py",
     "master": "design/3d-source/masters/science-decor.png",
-    "masterSha256": "d5b32d5002a889e355ba9e6b701bea009a455efa4ce898b10ba613ad05a20683",
+    "masterSha256": "8dbce1fa68c952ea52830f5ea5dbb6dd8518821ef4c9d7c509146080da876bdc",
     "referenceImageUsed": "style reference only (colours, lighting, composition); no pixels copied",
     "licence": "Original work created for this project; Blender is free software (GPL) and places no restriction on rendered output",
     "createdBy": "Claude (Claude Code)",
     "createdOn": "2026-11-13",
-    "scientificReview": "pending — decorative molecules resemble H2O; teacher may confirm",
+    "scientificReview": "Owner decision 2026-11-13: water-like molecules replaced with abstract, scientifically neutral shapes (irregular branching, palette colours instead of element colours)",
     "altText": {
       "ar": "عناصر علمية زخرفية",
       "en": "Decorative science elements"
-    }
+    },
+    "updatedOn": "2026-11-13"
   }
 ]

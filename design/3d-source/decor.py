@@ -14,19 +14,50 @@ for (z, side, ang, size, m) in [(0.6, -1, 55, 0.95, leaf_mat), (1.15, 1, -50, 0.
     l.rotation_euler = (0, math.radians(ang), 0)
     S.smooth(l, 1); S.assign(l, m)
 
-# small ball-and-stick molecules (decorative only — not a specific reaction)
-def molecule(center, r=0.16, color_a='blue_mid', color_b='white'):
-    a = S.add('sphere', radius=r, segments=32, ring_count=16, location=center)
-    S.smooth(a, 1); S.assign(a, S.mat(color_a, rough=0.25, coat=0.9))
-    for dx, dz in [(0.32, 0.18), (-0.3, 0.2)]:
-        b = S.add('sphere', radius=r * 0.65, segments=32, ring_count=16, location=(center[0] + dx, center[1], center[2] + dz))
-        S.smooth(b, 1); S.assign(b, S.mat(color_b, rough=0.25, coat=0.9))
-        s = S.add('cyl', radius=r * 0.18, depth=0.3, vertices=16, location=(center[0] + dx / 2, center[1], center[2] + dz / 2),
-                  rotation=(0, math.atan2(dx, dz), 0))
-        S.smooth(s, 0); S.assign(s, S.mat('#DCE6F5', rough=0.3, coat=0.5))
+# Abstract, scientifically neutral molecular shapes (decorative only).
+# - Irregular, non-planar branching that matches no common real molecule.
+# - Palette colours (lavender, gold, sky, mint) instead of the standard CPK element
+#   colours, so no atom reads as a specific element.
+def node(loc, r, color):
+    o = S.add('sphere', radius=r, segments=32, ring_count=16, location=loc)
+    S.smooth(o, 1); S.assign(o, S.mat(color, rough=0.25, coat=0.9))
+    return o
 
-molecule((0.75, -0.1, 2.45))
-molecule((-0.7, -0.1, 3.05), r=0.13, color_a='coral')
+
+def bond(p, q, r=0.028):
+    from mathutils import Vector
+    a, b = Vector(p), Vector(q)
+    c = S.add('cyl', radius=r, depth=(b - a).length, vertices=16, location=(a + b) / 2)
+    c.rotation_euler = (b - a).to_track_quat('Z', 'Y').to_euler()
+    S.smooth(c, 0); S.assign(c, S.mat('#DCE6F5', rough=0.3, coat=0.5))
+
+
+def abstract_molecule(center, nodes):
+    """nodes: list of (offset, radius, colour, parent_index or None)."""
+    from mathutils import Vector
+    pts = []
+    for off, r, col, parent in nodes:
+        p = Vector(center) + Vector(off)
+        node(p, r, col)
+        if parent is not None:
+            bond(pts[parent], p)
+        pts.append(p)
+
+# Molecule A — irregular branched cluster: hub with three unequal arms, one arm extended.
+abstract_molecule((0.72, -0.1, 2.45), [
+    ((0, 0, 0), 0.15, 'purple', None),
+    ((0.3, -0.08, 0.2), 0.1, 'gold', 0),
+    ((-0.24, 0.1, 0.26), 0.12, 'blue_light', 0),
+    ((0.05, -0.12, -0.3), 0.09, 'mint', 0),
+    ((0.52, 0.05, 0.42), 0.075, 'blue_light', 1),
+])
+# Molecule B — short zig-zag chain of four unequal nodes, twisted out of plane.
+abstract_molecule((-0.72, -0.1, 3.0), [
+    ((-0.28, 0, -0.1), 0.085, 'gold', None),
+    ((-0.06, -0.1, 0.12), 0.12, 'blue_light', 0),
+    ((0.2, 0.08, 0.02), 0.1, 'purple', 1),
+    ((0.4, -0.06, 0.24), 0.075, 'mint', 2),
+])
 S.four_point_star((0.85, -0.2, 3.3), size=0.2)
 S.four_point_star((-0.85, -0.2, 1.55), size=0.15)
 
