@@ -36,7 +36,7 @@ export function IllustrationSlot({
 
   if (spec.available) {
     return (
-      <picture className={cn('block', mirrorInLtr && 'ltr:-scale-x-100', className)} style={style}>
+      <picture data-asset={asset} className={cn('block', mirrorInLtr && 'ltr:-scale-x-100', className)} style={style}>
         <source type="image/webp" srcSet={`${assetUrl(spec, '1x')} 1x, ${assetUrl(spec, '2x')} 2x`} />
         <img
           src={assetUrl(spec, 'png')}
