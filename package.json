@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Chemistry on Trial — bilingual adaptive chemical-equilibrium learning platform (Stage 2: visual foundation)",
+  "description": "مهمة الاتزان – THE EQUILIBRIUM MISSION — bilingual adaptive chemical-equilibrium learning platform (Stage 2: visual foundation)",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

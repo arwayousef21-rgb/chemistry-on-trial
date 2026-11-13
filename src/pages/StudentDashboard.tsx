@@ -28,7 +28,7 @@ export function StudentDashboard() {
       />
       <InfoNote title={t.note.title}>{t.note.body}</InfoNote>
       {/* Laboratory glassware with decorative science elements behind it, as in the reference */}
-      <div className="relative mx-auto hidden h-[140px] w-[260px] lg:block">
+      <div className="relative mx-auto hidden h-[128px] w-[260px] lg:block">
         <IllustrationSlot asset="science-decor" decorative compact className="absolute bottom-1 end-0 w-[72px]" />
         <IllustrationSlot asset="lab-glassware" className="absolute bottom-0 start-0 w-[190px]" />
       </div>

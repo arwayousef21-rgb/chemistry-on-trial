@@ -6,7 +6,9 @@
  */
 export const ar = {
   app: {
-    title: 'الكيمياء في قفص الاتهام',
+    title: 'مهمة الاتزان',
+    fullName: 'مهمة الاتزان – THE EQUILIBRIUM MISSION',
+    tagline: 'اكتشف أسرار التفاعلات… وتحدَّ قوى التغيير!',
     module: 'الاتزان الكيميائي',
     skipToContent: 'انتقل إلى المحتوى الرئيسي',
   },

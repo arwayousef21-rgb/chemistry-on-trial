@@ -39,7 +39,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     const root = document.documentElement;
     root.lang = lang;
     root.dir = dir;
-    document.title = `${dictionaries[lang].app.title} | ${dictionaries[lang].app.module}`;
+    document.title = dictionaries[lang].app.fullName;
   }, [lang, dir]);
 
   const setLang = useCallback((next: Lang) => {

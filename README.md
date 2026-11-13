@@ -1,4 +1,7 @@
-# الكيمياء في قفص الاتهام · Chemistry on Trial
+# مهمة الاتزان – THE EQUILIBRIUM MISSION
+
+> اكتشف أسرار التفاعلات… وتحدَّ قوى التغيير!
+> *Explore the Secrets of Reactions. Challenge the Forces of Change.*
 
 A bilingual (Arabic RTL / English LTR) adaptive learning platform on **Chemical Equilibrium** for Egyptian secondary-school students.
 
@@ -31,6 +34,8 @@ npm test           # automated checks
 ```
 
 Add `?lang=en` or `?lang=ar` to the address to open a specific language. The language switch in the top bar also changes it, and the choice is remembered in the browser.
+
+Repository name: `chemistry-on-trial` (unchanged). Assistant name: EQUI.
 
 Pages: `#/` (student dashboard) and `#/design-system` (all tokens and shared components). Other links open a "later stage" notice.
 

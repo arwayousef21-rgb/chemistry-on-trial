@@ -1,4 +1,4 @@
-# Chemistry on Trial — Architecture Decision Record
+# مهمة الاتزان – THE EQUILIBRIUM MISSION — Architecture Decision Record
 
 **Project owner:** Miss Arwa Yousef
 **Purpose:** Record the decisions the project owner has approved after the two original specification files were written, so that the files and the implementation do not conflict.
@@ -14,8 +14,14 @@ The original specification files are kept unchanged.
 ---
 
 ## D1 — Platform identity
-- Title: **الكيمياء في قفص الاتهام / Chemistry on Trial**.
-- Module label / subtitle: **الاتزان الكيميائي / Chemical Equilibrium**.
+- **Platform name (approved 2026-11-13, replaces the earlier working title "الكيمياء في قفص الاتهام / Chemistry on Trial"):**
+  - Arabic interface: **مهمة الاتزان**
+  - English interface: **THE EQUILIBRIUM MISSION**
+  - Browser title, metadata and README: **مهمة الاتزان – THE EQUILIBRIUM MISSION**
+- **Tagline:** اكتشف أسرار التفاعلات… وتحدَّ قوى التغيير! / *Explore the Secrets of Reactions. Challenge the Forces of Change.*
+- Module label / subtitle (unchanged): **الاتزان الكيميائي / Chemical Equilibrium**.
+- Unchanged: repository name `chemistry-on-trial`; assistant name **EQUI – رفيق الكيمياء الذكي**.
+- The original specification files keep the earlier working title; this decision overrides it.
 
 ## D2 — Learning structure
 - Introductory **Unit 0** (dynamic equilibrium, scientific spec §2) followed by the six units, in the scientific specification's order. Axes are shown as labels.

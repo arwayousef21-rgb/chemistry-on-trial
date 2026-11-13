@@ -3,7 +3,9 @@ import type { Translations } from './index';
 /** English interface text (Stage 2). Mirrors `ar.ts`; pathway copy is DRAFT. */
 export const en: Translations = {
   app: {
-    title: 'Chemistry on Trial',
+    title: 'THE EQUILIBRIUM MISSION',
+    fullName: 'مهمة الاتزان – THE EQUILIBRIUM MISSION',
+    tagline: 'Explore the Secrets of Reactions. Challenge the Forces of Change.',
     module: 'Chemical Equilibrium',
     skipToContent: 'Skip to main content',
   },
@@ -32,7 +34,7 @@ export const en: Translations = {
   score: {
     heading: 'Your diagnostic result',
     caption: 'of answers correct',
-    conceptsHeading: 'Concepts that need support:',
+    conceptsHeading: 'Concepts to support:',
     ringLabel: 'Overall score {value} percent',
   },
   note: {
@@ -63,8 +65,8 @@ export const en: Translations = {
     ctaUnavailable: 'Pathway content is built after the scientific content review',
   },
   recommendation: {
-    title: 'Suggested targeted activity',
-    body: 'Strengthen your understanding of “{concept}” before or alongside your next activities.',
+    title: 'Targeted activity',
+    body: 'Strengthen “{concept}” before or alongside your next activities.',
   },
   equi: {
     name: 'EQUI',

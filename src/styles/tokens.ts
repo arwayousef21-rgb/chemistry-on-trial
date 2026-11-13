@@ -1,5 +1,5 @@
 /**
- * Chemistry on Trial — design tokens.
+ * مهمة الاتزان – THE EQUILIBRIUM MISSION — design tokens.
  *
  * Every colour below was sampled from the mandatory reference image
  * `public/reference/primary-dashboard-reference.jpg` (1536×1024 JPEG; values
