@@ -38,7 +38,7 @@ export const ASSETS: Record<AssetId, AssetSpec> = {
     aspect: '1 / 1',
     master: { width: 2048, height: 2048 },
     display: { width: 180, height: 180 },
-    available: false,
+    available: true,
     alt: { ar: 'الروبوت EQUI يشير إلى فقاعة الحوار', en: 'EQUI robot pointing at the speech bubble' },
   },
   'remedial-books': {
@@ -46,7 +46,7 @@ export const ASSETS: Record<AssetId, AssetSpec> = {
     aspect: '16 / 9',
     master: { width: 2048, height: 1152 },
     display: { width: 250, height: 141 },
-    available: false,
+    available: true,
     alt: { ar: 'كومة كتب ثلاثية الأبعاد', en: '3D stack of books' },
   },
   'corrective-target': {
@@ -54,7 +54,7 @@ export const ASSETS: Record<AssetId, AssetSpec> = {
     aspect: '16 / 9',
     master: { width: 2048, height: 1152 },
     display: { width: 250, height: 141 },
-    available: false,
+    available: true,
     alt: { ar: 'هدف وسهم ثلاثي الأبعاد', en: '3D target with arrow' },
   },
   'enrichment-rocket': {
@@ -62,7 +62,7 @@ export const ASSETS: Record<AssetId, AssetSpec> = {
     aspect: '16 / 9',
     master: { width: 2048, height: 1152 },
     display: { width: 250, height: 141 },
-    available: false,
+    available: true,
     alt: { ar: 'صاروخ ثلاثي الأبعاد', en: '3D rocket' },
   },
   'lab-glassware': {
@@ -70,7 +70,7 @@ export const ASSETS: Record<AssetId, AssetSpec> = {
     aspect: '3 / 2',
     master: { width: 2048, height: 1365 },
     display: { width: 200, height: 133 },
-    available: false,
+    available: true,
     alt: { ar: 'أدوات زجاجية مخبرية', en: 'Laboratory glassware' },
   },
   'science-decor': {
@@ -78,7 +78,7 @@ export const ASSETS: Record<AssetId, AssetSpec> = {
     aspect: '2 / 3',
     master: { width: 1365, height: 2048 },
     display: { width: 80, height: 120 },
-    available: false,
+    available: true,
     alt: { ar: 'عناصر علمية زخرفية', en: 'Decorative science elements' },
   },
 };

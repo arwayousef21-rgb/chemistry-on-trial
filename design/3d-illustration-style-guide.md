@@ -6,6 +6,15 @@
 
 ---
 
+## 0. Status of the first six assets (Stage 2)
+
+The six priority assets were produced as **original 3D renders in Blender 5.1.2** (Cycles renderer), modelled by script in `design/3d-source/`:
+- `studio.py` holds the shared lighting, camera, materials and render settings.
+- One script per asset.
+- `finalize.py` crops and fits each render into the exact canvas and margin, adds the soft contact shadow, embeds an sRGB profile, and writes the masters (`design/3d-source/masters/`) and web exports.
+
+Provenance for each asset is recorded in `public/assets/illustrations/assets-manifest.json`. Any asset can be replaced later by image-generator or designer artwork with the same file name and aspect ratio; no layout change is needed. The workflow below still applies to further assets.
+
 ## 1. Workflow
 
 | Step | Who | Output |

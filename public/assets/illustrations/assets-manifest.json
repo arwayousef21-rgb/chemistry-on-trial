@@ -1,0 +1,104 @@
+[
+  {
+    "file": "robot/equi-pointing",
+    "purpose": "EQUI robot mascot, pointing toward the speech bubble",
+    "tool": "Blender 5.1.2 (bpy) — Cycles renderer; original models built by script",
+    "source": "design/3d-source/equi.py with design/3d-source/studio.py; post-processed by design/3d-source/finalize.py",
+    "master": "design/3d-source/masters/equi-pointing.png",
+    "masterSha256": "9776fb935b65adafc1a175d946a35475a20a92ca5b16067f146e48422883714a",
+    "referenceImageUsed": "style reference only (colours, lighting, composition); no pixels copied",
+    "licence": "Original work created for this project; Blender is free software (GPL) and places no restriction on rendered output",
+    "createdBy": "Claude (Claude Code)",
+    "createdOn": "2026-11-13",
+    "scientificReview": "not required (mascot)",
+    "altText": {
+      "ar": "الروبوت EQUI يشير إلى فقاعة الحوار",
+      "en": "EQUI robot pointing at the speech bubble"
+    }
+  },
+  {
+    "file": "pathways/remedial-books",
+    "purpose": "Remedial pathway card illustration",
+    "tool": "Blender 5.1.2 (bpy) — Cycles renderer; original models built by script",
+    "source": "design/3d-source/books.py with design/3d-source/studio.py; post-processed by design/3d-source/finalize.py",
+    "master": "design/3d-source/masters/remedial-books.png",
+    "masterSha256": "083f8308470eb0063ae61cba43d19d97252831b82df4f8b8464e02a6d6943b5c",
+    "referenceImageUsed": "style reference only (colours, lighting, composition); no pixels copied",
+    "licence": "Original work created for this project; Blender is free software (GPL) and places no restriction on rendered output",
+    "createdBy": "Claude (Claude Code)",
+    "createdOn": "2026-11-13",
+    "scientificReview": "not required (generic object)",
+    "altText": {
+      "ar": "كومة كتب ثلاثية الأبعاد",
+      "en": "3D stack of books"
+    }
+  },
+  {
+    "file": "pathways/corrective-target",
+    "purpose": "Corrective pathway card and banner illustration",
+    "tool": "Blender 5.1.2 (bpy) — Cycles renderer; original models built by script",
+    "source": "design/3d-source/target.py with design/3d-source/studio.py; post-processed by design/3d-source/finalize.py",
+    "master": "design/3d-source/masters/corrective-target.png",
+    "masterSha256": "b05a4d5ba2af1ce44e40abcabd465f404971fc06f39f98ad68ef47a05d41eb47",
+    "referenceImageUsed": "style reference only (colours, lighting, composition); no pixels copied",
+    "licence": "Original work created for this project; Blender is free software (GPL) and places no restriction on rendered output",
+    "createdBy": "Claude (Claude Code)",
+    "createdOn": "2026-11-13",
+    "scientificReview": "not required (generic object)",
+    "altText": {
+      "ar": "هدف وسهم ثلاثي الأبعاد",
+      "en": "3D target with arrow"
+    }
+  },
+  {
+    "file": "pathways/enrichment-rocket",
+    "purpose": "Enrichment pathway card illustration",
+    "tool": "Blender 5.1.2 (bpy) — Cycles renderer; original models built by script",
+    "source": "design/3d-source/rocket.py with design/3d-source/studio.py; post-processed by design/3d-source/finalize.py",
+    "master": "design/3d-source/masters/enrichment-rocket.png",
+    "masterSha256": "ea38fc98b5dfc58a206748bd1587b60fde6d6c12275458436e949c445a1fc685",
+    "referenceImageUsed": "style reference only (colours, lighting, composition); no pixels copied",
+    "licence": "Original work created for this project; Blender is free software (GPL) and places no restriction on rendered output",
+    "createdBy": "Claude (Claude Code)",
+    "createdOn": "2026-11-13",
+    "scientificReview": "not required (generic object)",
+    "altText": {
+      "ar": "صاروخ ثلاثي الأبعاد",
+      "en": "3D rocket"
+    }
+  },
+  {
+    "file": "chemistry/lab-glassware",
+    "purpose": "Decorative laboratory glassware (no experiment depicted)",
+    "tool": "Blender 5.1.2 (bpy) — Cycles renderer; original models built by script",
+    "source": "design/3d-source/glassware.py with design/3d-source/studio.py; post-processed by design/3d-source/finalize.py",
+    "master": "design/3d-source/masters/lab-glassware.png",
+    "masterSha256": "4a9e8cbb53eeb5a06024e34b630fb4f88469fa8303bb7b45bf9241a39eef55ff",
+    "referenceImageUsed": "style reference only (colours, lighting, composition); no pixels copied",
+    "licence": "Original work created for this project; Blender is free software (GPL) and places no restriction on rendered output",
+    "createdBy": "Claude (Claude Code)",
+    "createdOn": "2026-11-13",
+    "scientificReview": "pending — decorative glassware; teacher may confirm",
+    "altText": {
+      "ar": "أدوات زجاجية مخبرية",
+      "en": "Laboratory glassware"
+    }
+  },
+  {
+    "file": "ui/science-decor",
+    "purpose": "Decorative science elements (leaves, molecules, sparkles)",
+    "tool": "Blender 5.1.2 (bpy) — Cycles renderer; original models built by script",
+    "source": "design/3d-source/decor.py with design/3d-source/studio.py; post-processed by design/3d-source/finalize.py",
+    "master": "design/3d-source/masters/science-decor.png",
+    "masterSha256": "d5b32d5002a889e355ba9e6b701bea009a455efa4ce898b10ba613ad05a20683",
+    "referenceImageUsed": "style reference only (colours, lighting, composition); no pixels copied",
+    "licence": "Original work created for this project; Blender is free software (GPL) and places no restriction on rendered output",
+    "createdBy": "Claude (Claude Code)",
+    "createdOn": "2026-11-13",
+    "scientificReview": "pending — decorative molecules resemble H2O; teacher may confirm",
+    "altText": {
+      "ar": "عناصر علمية زخرفية",
+      "en": "Decorative science elements"
+    }
+  }
+]
