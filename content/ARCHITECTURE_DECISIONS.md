@@ -88,3 +88,15 @@ The original specification files are kept unchanged.
 
 ## D13 — Process
 - Work proceeds in stages, each requiring explicit approval. No deployment, external account creation, live AI integration or real data collection without explicit approval.
+
+## D14 — Stage 2 approved and complete (2026-11-13)
+The owner formally approved Stage 2 at commit `35a77b9`. Approved:
+- Platform branding: **مهمة الاتزان – THE EQUILIBRIUM MISSION** (D1).
+- Arabic and English dashboard designs.
+- The three pathway cards and their colours (D3).
+- The six original 3D illustrations (Blender renders; provenance in `public/assets/illustrations/assets-manifest.json`).
+- The EQUI assistant character.
+- Desktop, tablet and mobile responsive layouts.
+- Typography, spacing and the visual design system (`src/styles/tokens.ts`, `design/design-tokens.md`).
+
+Not yet authorised: Stage 3 implementation (pending approval of its architecture plan) and merging into `main`.

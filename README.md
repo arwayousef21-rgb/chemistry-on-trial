@@ -5,7 +5,8 @@
 
 A bilingual (Arabic RTL / English LTR) adaptive learning platform on **Chemical Equilibrium** for Egyptian secondary-school students.
 
-> **Current status: Stage 2 — visual foundation.**
+> **Current status: Stage 2 (visual foundation) — APPROVED and complete (2026-11-13, approved commit `35a77b9`).**
+> Stage 3 has not started; its architecture plan awaits the owner's review and approval.
 > Synthetic demonstration data only. No backend, no accounts, no real student data, no live AI, no deployment.
 
 ## Project documents
