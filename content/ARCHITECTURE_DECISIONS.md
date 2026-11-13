@@ -55,14 +55,14 @@ The original specification files are kept unchanged.
 - Diagnostic pre-test (form A), continuous formative assessment, parallel post-test (form B: same objectives, new questions of comparable difficulty).
 - Research indicators: raw pre/post scores and concept-level raw gains. **Normalised gain and other indicators are not final** until reviewed with the research supervisor.
 
-## D8 — EQUI – رفيق الكيمياء الذكي *(replaces "ARWA AI" in the handoff)*
+## D8 — EQUI – رفيق الكيمياء الذكي *(replaces "ARWA AI" in the handoff; implementation superseded by D16)*
 - Roles: platform guide and educational tutor, in Arabic and English (replies in the student's language).
 - **Completely disabled during the formal pre-test and post-test.**
 - During formative learning: guided hints, explanations and feedback; does not simply reveal answers where independent thinking is the goal.
 - Uses approved content only. Conversations are **not stored by default**; retention may be made configurable for research.
 - Live AI integration requires a later approval; a labelled demo mode is used until then.
 
-## D9 — Accounts, roles and data *(overrides handoff §2 "no login, local storage only")*
+## D9 — Accounts, roles and data *(overrides handoff §2; registration, sign-in and backend details superseded by D15)*
 - Students register with full name, email, password and a teacher-provided class code.
 - Teacher and administrator roles are separate and protected; students can never grant themselves elevated roles.
 - Proposed backend: Supabase (planning only — **no project created**).
@@ -99,4 +99,32 @@ The owner formally approved Stage 2 at commit `35a77b9`. Approved:
 - Desktop, tablet and mobile responsive layouts.
 - Typography, spacing and the visual design system (`src/styles/tokens.ts`, `design/design-tokens.md`).
 
-Not yet authorised: Stage 3 implementation (pending approval of its architecture plan) and merging into `main`.
+Not yet authorised at that time: Stage 3 implementation and merging into `main`. See D15–D17.
+
+## D15 — Stage 3 MVP architecture: zero cost, simple student access (2026-11-13)
+**Zero-paid-service requirement.** No paid subscriptions, APIs, AI models, hosting, databases, email services or paid add-ons. No credit card or billing account. Free tiers are treated as subject to change; the data layer stays portable.
+
+**Platform:** Cloudflare (free plan, no card): static site + server API (Workers) + D1 database (SQLite), at a free public address (`*.workers.dev` or `*.pages.dev`). The site must work from students' homes, the owner's home and the university. Supabase Free, Firebase Spark and the school-server design are **not used** (Firebase Spark cannot grade on the server or back up for free; Supabase Free pauses after inactivity).
+
+**Student registration and access (exact flow):**
+1. *First registration* — the student provides only **full name, email address and Egyptian mobile number** (11 digits starting 010/011/012/015). One unique student record is created and a persistent device session starts in that browser.
+2. *Same device* — the saved device session recognises the student automatically, restores the profile and progress, and never asks them to register again.
+3. *New device* — a **"لدي حساب بالفعل / I already have an account"** option asks for **email address and phone number only**. If both match one existing record, that record is resumed with its progress. If not, a clear error suggests checking the details or contacting the teacher. **The resume process never creates a record.**
+4. *Shared devices* — a visible **"لست أنت؟ / Not you?"** button clears the local session and returns to the welcome screen.
+5. **No passwords, no email verification, no return codes** for students. No other personal information is collected.
+6. Email is unique per record; a phone number already in use is flagged for the teacher (siblings may share a phone).
+
+**Important limitation:** matching email + phone **is not identity verification**. Anyone who knows both can resume that record, and anyone can register with false details. Assessments are therefore for **learning and research purposes under supervision, not high-stakes formal grading**.
+
+**Data protection:** the database is reachable only through the server API. The public interface never returns another student's record. Lookups during resume return only "match / no match", never record details. Official answer keys stay on the server. The **teacher account is separately protected** (passphrase-based session; method finalised in M1/M4).
+
+**Teacher exports:** Excel (.xlsx) and CSV with name, email, phone, registration and participation, pre/post results, pathway, activity progress and concept performance; plus a coded-ID research export without personal details. Regular Excel exports form part of the backup routine, alongside D1 Time Travel (7-day restore).
+
+**Development** uses synthetic data only, running locally and in CI without any Cloudflare account. Deployment requires the owner's explicit approval.
+
+## D16 — EQUI as a content-based assistant (2026-11-13)
+EQUI is a **content-based learning assistant, not a generative AI model**. It runs in the browser, searches only **approved** learning materials (Arabic and English, with glossary-based term matching), shows approved passages with their source reference, gives pre-authored definitions, examples and step-by-step hints, recommends lessons and activities, helps with navigation, and clearly says when the approved materials do not cover a question (referring the student to the teacher). Pending and on-hold content is never included. EQUI is unavailable during official pre-tests and post-tests. No paid AI API is connected.
+
+## D17 — Stage 3 milestone authorisation
+M0 (local development setup and CI, synthetic data, no external accounts, no deployment) is authorised. Later milestones and any deployment or merge into `main` each require explicit approval.
+
