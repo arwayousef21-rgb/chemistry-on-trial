@@ -15,11 +15,11 @@ export function TopNav() {
   const { t } = useI18n();
   return (
     <header className="sticky top-0 z-30 bg-navy-900 text-white shadow-[0_2px_12px_rgba(24,54,96,0.25)]">
-      <div className="mx-auto flex h-nav max-w-page items-center gap-4 px-4 md:px-8">
+      <div className="mx-auto flex h-16 max-w-page items-center gap-4 px-4 md:h-nav md:px-8">
         <NavLink to="/" className="flex min-w-0 flex-1 items-center gap-2 md:gap-3" aria-label={t.app.title}>
-          <Atom aria-hidden className="h-8 w-8 shrink-0 md:h-12 md:w-12" strokeWidth={1.6} />
+          <Atom aria-hidden className="h-8 w-8 shrink-0 md:h-14 md:w-14" strokeWidth={1.6} />
           <span className="flex min-w-0 flex-col leading-tight">
-            <span className="truncate text-[16px] font-extrabold sm:text-[19px] md:text-[24px]">{t.app.title}</span>
+            <span className="truncate text-[16px] font-extrabold sm:text-[19px] md:text-[26px]">{t.app.title}</span>
             <span className="truncate text-[12px] font-medium text-white/75 md:text-[14px]">{t.app.module}</span>
           </span>
         </NavLink>

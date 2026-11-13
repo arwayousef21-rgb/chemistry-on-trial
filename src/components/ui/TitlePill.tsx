@@ -8,7 +8,7 @@ export function TitlePill({ pathway, icon, children, as: Tag = 'h2' }: { pathway
   return (
     <Tag
       className={cn(
-        'flex min-h-[60px] items-center justify-center gap-3 rounded-pill px-5 py-2 text-center text-[21px] font-bold leading-tight text-white shadow-button xl:text-[23px]',
+        'flex min-h-[60px] items-center justify-center gap-2.5 rounded-pill px-4 py-2 text-center text-[21px] font-bold leading-[1.25] text-white shadow-button [text-wrap:balance] xl:text-[22px]',
         pathwayStyles[pathway].solid,
       )}
     >

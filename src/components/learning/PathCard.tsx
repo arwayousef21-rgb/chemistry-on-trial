@@ -2,12 +2,12 @@ import { BookOpen, Play, RefreshCw, Rocket, Star, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { PathwayId } from '@/styles/tokens';
 import { Button, FeatureList, IllustrationSlot, RecommendedTab, SectionStrip, Sparkle, TitlePill, cn, pathwayStyles } from '@/components/ui';
-import type { IllustrationId } from '@/components/ui';
+import type { AssetId } from '@/assets/illustrations';
 
 const pathwayIcon: Record<PathwayId, JSX.Element> = {
-  remedial: <BookOpen className="h-8 w-8" strokeWidth={2.2} />,
-  corrective: <RefreshCw className="h-8 w-8" strokeWidth={2.6} />,
-  enrichment: <Star className="h-8 w-8 fill-status-gold text-status-gold" />,
+  remedial: <BookOpen className="h-7 w-7" strokeWidth={2.2} />,
+  corrective: <RefreshCw className="h-7 w-7" strokeWidth={2.6} />,
+  enrichment: <Star className="h-7 w-7 fill-status-gold text-status-gold" />,
 };
 
 const ctaIcon: Record<PathwayId, JSX.Element> = {
@@ -16,10 +16,10 @@ const ctaIcon: Record<PathwayId, JSX.Element> = {
   enrichment: <Rocket className="h-6 w-6" strokeWidth={2.4} />,
 };
 
-const illustrationId: Record<PathwayId, IllustrationId> = {
-  remedial: 'pathway-books',
-  corrective: 'pathway-target',
-  enrichment: 'pathway-rocket',
+const pathwayAsset: Record<PathwayId, AssetId> = {
+  remedial: 'remedial-books',
+  corrective: 'corrective-target',
+  enrichment: 'enrichment-rocket',
 };
 
 interface PathCardProps {
@@ -29,7 +29,6 @@ interface PathCardProps {
   featuresHeading: string;
   features: string[];
   cta: string;
-  illustrationAlt: string;
   recommended?: boolean;
   recommendedLabel: string;
 }
@@ -45,7 +44,7 @@ export function PathCard(props: PathCardProps) {
       className={cn(
         // On wide screens each card spans 6 shared rows (CSS subgrid), so titles, illustrations,
         // strips and buttons line up across the three cards even when a title wraps.
-        'relative flex flex-col gap-5 rounded-card border p-5 transition md:row-span-6 md:grid md:grid-rows-subgrid md:gap-y-5',
+        'relative flex flex-col gap-4 rounded-card border px-5 pb-5 pt-5 transition md:row-span-6 md:grid md:grid-rows-subgrid md:gap-y-3.5',
         s.tint,
         recommended ? cn('border-2 shadow-raised', s.emphasisBorder) : cn('shadow-card', s.border),
       )}
@@ -55,13 +54,14 @@ export function PathCard(props: PathCardProps) {
         {props.name}
       </TitlePill>
 
-      <div className="relative mx-auto flex h-[150px] w-full max-w-[260px] items-center justify-center">
-        <Sparkle className="absolute start-2 top-6" />
-        <Sparkle className="absolute end-2 top-10" size={18} />
-        <IllustrationSlot id={illustrationId[pathway]} alt={props.illustrationAlt} className="h-[140px] w-[180px]" />
+      {/* 16:9 slot for the 3D artwork; gold sparkles sit either side, as in the reference */}
+      <div className="relative mx-auto flex w-full max-w-[290px] items-center justify-center px-5">
+        <Sparkle className="absolute start-0 top-5" />
+        <Sparkle className="absolute end-0 top-9" size={18} />
+        <IllustrationSlot asset={pathwayAsset[pathway]} className="w-full max-w-[230px]" />
       </div>
 
-      <p className="text-center text-[17px] leading-[1.75] text-ink-body">{props.description}</p>
+      <p className="text-center text-[16px] leading-[1.7] text-ink-body">{props.description}</p>
 
       <SectionStrip pathway={pathway}>{props.featuresHeading}</SectionStrip>
       <div className="flex justify-center">

@@ -31,7 +31,7 @@ export function EquiPanel({ open, onClose }: { open: boolean; onClose: () => voi
         className="flex max-h-[85vh] w-full flex-col overflow-hidden rounded-t-card bg-surface shadow-raised md:m-4 md:max-h-none md:w-[420px] md:rounded-card"
       >
         <header className="flex items-center gap-3 bg-navy-900 px-5 py-4 text-white">
-          <IllustrationSlot id="equi-pointing" alt="EQUI" compact className="h-12 w-12 shrink-0 !rounded-pill border-white/40 bg-white/10 !text-white" />
+          <IllustrationSlot asset="equi-robot" compact className="w-12 shrink-0 !rounded-pill border-white/40 bg-white/10 !text-white" />
           <h2 id="equi-title" className="flex-1 text-h3">{t.equi.panelTitle}</h2>
           <button ref={closeRef} type="button" onClick={onClose} aria-label={t.equi.close} className="rounded-pill p-2 hover:bg-white/10">
             <X aria-hidden className="h-6 w-6" />

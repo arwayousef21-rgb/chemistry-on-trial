@@ -10,6 +10,6 @@ export { RecommendedTab, Badge } from './Badge';
 export { ReviewStatusBadge, type ReviewStatus } from './ReviewStatusBadge';
 export { InfoNote } from './InfoNote';
 export { Equation } from './Equation';
-export { IllustrationSlot, type IllustrationId } from './IllustrationSlot';
+export { IllustrationSlot } from './IllustrationSlot';
 export { Sparkle, Rays } from './Decorations';
 export { pathwayStyles } from './pathwayStyles';

@@ -113,9 +113,9 @@ export const typography = {
 } as const;
 
 export const layout = {
-  navHeight: '72px',
+  navHeight: '84px', // reference ≈ 92 px at 1536; modest increase from 72 px
   sideColumn: '300px',
-  maxWidth: '1440px',
+  maxWidth: '1536px', // the reference uses the full 1536 px width
   gutterDesktop: '32px',
   gutterMobile: '16px',
 } as const;

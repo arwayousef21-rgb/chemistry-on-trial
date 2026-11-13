@@ -29,7 +29,7 @@ export function Button({ variant = 'navy', icon, size = 'lg', fullWidth, classNa
       className={cn(
         'inline-flex items-center justify-center gap-3 rounded-pill font-bold text-white shadow-button transition',
         'hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0',
-        size === 'lg' ? 'min-h-[56px] px-6 py-2 text-[18px] leading-tight' : 'min-h-[44px] px-5 text-small',
+        size === 'lg' ? 'min-h-[54px] px-6 py-2 text-[18px] leading-tight [text-wrap:balance]' : 'min-h-[44px] px-5 text-small',
         fullWidth && 'w-full',
         variantClass[variant],
         className,

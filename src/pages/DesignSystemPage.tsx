@@ -1,6 +1,7 @@
 import { BookOpen, Play, RefreshCw, Rocket, Star, Target } from 'lucide-react';
 import { useI18n } from '@/i18n/I18nProvider';
 import { colors, radii, shadows } from '@/styles/tokens';
+import { ASSETS, type AssetId } from '@/assets/illustrations';
 import {
   Badge,
   Button,
@@ -160,18 +161,23 @@ export function DesignSystemPage() {
         </div>
       </Section>
 
-      <Section title={en ? '3D illustration slots (assets pending)' : 'مواضع الرسوم ثلاثية الأبعاد (قيد الإعداد)'}>
+      <Section title={en ? 'Priority 3D asset slots (artwork pending)' : 'مواضع الرسوم ثلاثية الأبعاد ذات الأولوية (قيد الإعداد)'}>
         <p className="text-small text-ink-muted">
           {en
             ? 'Clearly labelled placeholders reserve the space until the approved 3D assets are produced (see design/3d-illustration-style-guide.md).'
             : 'عناصر نائبة واضحة تحجز المساحة حتى تُنتج الرسوم ثلاثية الأبعاد المعتمدة (انظر دليل أسلوب الرسوم).'}
         </p>
-        <div className="flex flex-wrap gap-4">
-          <IllustrationSlot id="pathway-books" alt={en ? 'Books' : 'كتب'} className="h-32 w-40" />
-          <IllustrationSlot id="pathway-target" alt={en ? 'Target' : 'هدف'} className="h-32 w-40" />
-          <IllustrationSlot id="pathway-rocket" alt={en ? 'Rocket' : 'صاروخ'} className="h-32 w-40" />
-          <IllustrationSlot id="equi-pointing" alt="EQUI" className="h-32 w-40" />
-          <IllustrationSlot id="chemistry-flasks" alt={en ? 'Flasks' : 'دوارق'} className="h-32 w-40" />
+        <div className="flex flex-wrap items-end gap-5">
+          {(Object.keys(ASSETS) as AssetId[]).map((id) => (
+            <figure key={id} className="w-[200px] space-y-2 text-center">
+              <IllustrationSlot asset={id} className="w-full" />
+              <figcaption className="text-[12px] text-ink-muted">
+                <code className="equation">{ASSETS[id].file}</code>
+                <br />
+                <span className="equation">{ASSETS[id].master.width}×{ASSETS[id].master.height}</span> · {ASSETS[id].aspect.replace(/ /g, '')}
+              </figcaption>
+            </figure>
+          ))}
         </div>
       </Section>
     </div>

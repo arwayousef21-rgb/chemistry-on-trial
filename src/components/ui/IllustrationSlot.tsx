@@ -1,50 +1,75 @@
 import { Box } from 'lucide-react';
 import { useI18n } from '@/i18n/I18nProvider';
+import { ASSETS, assetUrl, type AssetId } from '@/assets/illustrations';
 import { cn } from './cn';
 
-export type IllustrationId =
-  | 'pathway-books'
-  | 'pathway-target'
-  | 'pathway-rocket'
-  | 'banner-target'
-  | 'equi-pointing'
-  | 'chemistry-flasks';
-
 /**
- * Reserved space for a 3D illustration. Until the approved 3D assets exist,
- * this shows a clearly labelled placeholder — never a flat drawing standing in
- * for the final artwork (ARCHITECTURE_DECISIONS D12). When an asset file is
- * added to `public/assets/illustrations/`, pass its `src` to show it.
+ * Fixed-proportion slot for one of the six priority 3D assets.
+ *
+ * - When the asset is marked available in `src/assets/illustrations.ts`, it
+ *   renders the real artwork (WebP 1×/2× with PNG fallback).
+ * - Until then it shows a clearly labelled placeholder of exactly the same
+ *   size and aspect ratio — never a flat drawing standing in for the artwork.
+ *
+ * Size the slot with a width class; the height follows the asset's aspect ratio.
  */
 export function IllustrationSlot({
-  id,
-  alt,
-  src,
+  asset,
   className,
   compact = false,
+  decorative = false,
+  mirrorInLtr = false,
 }: {
-  id: IllustrationId;
-  alt: string;
-  src?: string;
+  asset: AssetId;
   className?: string;
+  /** Icon-only placeholder for small slots (avatars). */
   compact?: boolean;
+  /** Purely decorative assets are hidden from screen readers. */
+  decorative?: boolean;
+  /** Flip the artwork horizontally in the English (LTR) layout, e.g. EQUI pointing toward the bubble. */
+  mirrorInLtr?: boolean;
 }) {
-  const { t } = useI18n();
-  if (src) return <img src={src} alt={alt} className={cn('object-contain', className)} loading="lazy" />;
+  const { t, lang } = useI18n();
+  const spec = ASSETS[asset];
+  const alt = spec.alt[lang];
+  const style = { aspectRatio: spec.aspect };
+
+  if (spec.available) {
+    return (
+      <picture className={cn('block', mirrorInLtr && 'ltr:-scale-x-100', className)} style={style}>
+        <source type="image/webp" srcSet={`${assetUrl(spec, '1x')} 1x, ${assetUrl(spec, '2x')} 2x`} />
+        <img
+          src={assetUrl(spec, 'png')}
+          alt={decorative ? '' : alt}
+          width={spec.display.width}
+          height={spec.display.height}
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-contain"
+        />
+      </picture>
+    );
+  }
+
   return (
     <div
-      role="img"
-      aria-label={`${alt} — ${t.illustration.pending}`}
-      data-illustration={id}
+      role={decorative ? undefined : 'img'}
+      aria-hidden={decorative || undefined}
+      aria-label={decorative ? undefined : `${alt} — ${t.illustration.pending}`}
+      data-asset={asset}
+      style={style}
       className={cn(
-        'flex flex-col items-center justify-center gap-1 rounded-panel border-2 border-dashed border-[#B9C6E4] bg-white/60 text-center text-[#5B6A90]',
+        'flex flex-col items-center justify-center gap-1 overflow-hidden rounded-panel border-2 border-dashed border-[#B9C6E4] bg-white/60 text-center text-[#5B6A90]',
         className,
       )}
     >
-      <Box aria-hidden className={compact ? 'h-6 w-6' : 'h-8 w-8'} strokeWidth={1.5} />
-      {/* Compact slots (avatars, banner) show only the icon; the label stays available to screen readers. */}
-      {!compact && <span className="px-2 text-[12px] font-semibold leading-tight">{alt}</span>}
-      {!compact && <span className="px-2 text-[11px] leading-tight opacity-80">{t.illustration.pending}</span>}
+      <Box aria-hidden className={compact ? 'h-5 w-5' : 'h-7 w-7'} strokeWidth={1.5} />
+      {!compact && (
+        <>
+          <span className="px-2 text-[12px] font-semibold leading-tight">{alt}</span>
+          <span className="px-2 text-[11px] leading-tight opacity-80">{t.illustration.pending}</span>
+        </>
+      )}
     </div>
   );
 }

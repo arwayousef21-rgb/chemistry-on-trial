@@ -16,7 +16,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </a>
       <PageBackground />
       <TopNav />
-      <main id="main" className="mx-auto max-w-page px-4 pb-10 pt-6 md:px-8">
+      <main id="main" className="mx-auto max-w-page px-4 pb-10 pt-5 md:px-8">
         {children}
       </main>
       <footer className="mx-auto flex max-w-page flex-wrap items-center justify-between gap-2 px-4 pb-6 text-[13px] text-ink-muted md:px-8">
