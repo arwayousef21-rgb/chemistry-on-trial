@@ -49,7 +49,26 @@ Based on the reference robot. EQUI must look the same in every pose.
 - **Proportions:** head about 45 % of total height; friendly and gender-neutral.
 - **Personality:** warm, encouraging, curious. Never scary, never sad.
 
-## 4. Asset list with prompts
+## 4. First six assets — exact delivery specification
+
+These six fill the dashboard slots that already exist in the code (`src/assets/illustrations.ts`). Each slot has a fixed aspect ratio, so deliver images at exactly these proportions. Keep about 8–10 % empty transparent margin around the object, and rest the object on the bottom third (except the rocket, which flies upward).
+
+| # | Asset | Slot / file name | Master to deliver | Aspect | Largest display size (CSS px) |
+|---|---|---|---|---|---|
+| 1 | EQUI robot, pointing toward the speech bubble | `robot/equi-pointing` | **2048 × 2048** | 1 : 1 | 158 × 158 (dashboard), 48 × 48 (chat avatar) |
+| 2 | Remedial — stack of books on a cloud base | `pathways/remedial-books` | **2048 × 1152** | 16 : 9 | 230 × 129 |
+| 3 | Corrective — dartboard target with dart, on a cloud base (also used in the banner) | `pathways/corrective-target` | **2048 × 1152** | 16 : 9 | 230 × 129 (card), 170 × 96 (banner) |
+| 4 | Enrichment — rocket launching, cloud trail | `pathways/enrichment-rocket` | **2048 × 1152** | 16 : 9 | 230 × 129 |
+| 5 | Laboratory glassware — blue Erlenmeyer + pink round-bottom flask (decorative, no experiment) | `chemistry/lab-glassware` | **2048 × 1365** | 3 : 2 | 190 × 127 |
+| 6 | Decorative science elements — mint leaves with a few small floating molecules / sparkles | `ui/science-decor` | **1365 × 2048** | 2 : 3 | 72 × 108 |
+
+**Format for every master:** PNG-24 with transparent background (alpha), sRGB colour profile, no text, no watermark. Larger masters are fine if the aspect ratio is kept. JPEG is not accepted, because it cannot carry transparency.
+
+**What Claude produces from each master:** `<name>.webp` (display size × 1), `<name>@2x.webp` (× 2) and `<name>.png` (fallback), placed under `public/assets/illustrations/`. The slot is then switched on in `src/assets/illustrations.ts`, with no layout change.
+
+Note: in the reference, the robot's direction follows the Arabic layout. EQUI points toward the speech bubble on its reading-start side (to the viewer's right in Arabic). Please generate EQUI **pointing to the viewer's right**; the English layout uses a mirrored copy.
+
+## 5. Asset list with prompts
 
 Every prompt starts with the **shared style block**:
 
@@ -59,12 +78,12 @@ Every prompt starts with the **shared style block**:
 
 | File | Prompt (after the shared style block) |
 |---|---|
-| `pathways/books.png` (Remedial, blue) | *A neat stack of three thick closed books, the top book golden yellow with a lighter label area, the lower books in two shades of blue (#1866B4, #58B0F4), small open book pages visible on one side, sitting on a soft light-blue cloud base with two small gold four-point sparkles.* |
-| `pathways/target.png` (Corrective, green) | *A round dartboard target with white and coral-red rings and a red bullseye, a blue dart arrow with navy fletching stuck exactly in the centre, the target sitting on a soft light-blue cloud base with two small gold four-point sparkles.* |
-| `pathways/rocket.png` (Enrichment, purple) | *A cute cartoon rocket launching diagonally upward to the right, white and blue body with a round window, red-coral fins, soft orange-gold flame, small puffy white-blue cloud trail below, two small gold sparkles.* |
-| `ui/banner-target.png` | *Same dartboard and blue dart as the Corrective target asset but without the cloud base, slightly larger arrow, angled for a banner.* (Gold rays are added by the website as SVG.) |
-| `robot/equi-pointing.png` | *The EQUI robot (spec in section 3) standing, three-quarter view, one hand raised with the index finger pointing up and to the side as if presenting a speech bubble, cheerful smile.* |
-| `chemistry/flasks.png` | *Two glass laboratory flasks side by side: an Erlenmeyer flask with bright blue liquid (#58B0F4) and a smaller round-bottom flask with pink liquid (#F080B0), small bubbles, a few soft mint-green leaves behind them on one side.* **Decorative — not tied to any experiment.** |
+| `pathways/remedial-books.png` (Remedial, blue) | *A neat stack of three thick closed books, the top book golden yellow with a lighter label area, the lower books in two shades of blue (#1866B4, #58B0F4), small open book pages visible on one side, sitting on a soft light-blue cloud base with two small gold four-point sparkles.* |
+| `pathways/corrective-target.png` (Corrective, green) | *A round dartboard target with white and coral-red rings and a red bullseye, a blue dart arrow with navy fletching stuck exactly in the centre, the target sitting on a soft light-blue cloud base with two small gold four-point sparkles.* |
+| `pathways/enrichment-rocket.png` (Enrichment, purple) | *A cute cartoon rocket launching diagonally upward to the right, white and blue body with a round window, red-coral fins, soft orange-gold flame, small puffy white-blue cloud trail below, two small gold sparkles.* |
+| `ui/science-decor.png` | *A small vertical cluster of three soft mint-green leaves (#94D0C0) with two or three tiny glossy molecule spheres in blue and white and two small gold sparkles floating beside them.* Decorative only. |
+| `robot/equi-pointing.png` | *The EQUI robot (spec in section 3) standing, three-quarter view, one hand raised with the index finger pointing up and to the viewer's right as if presenting a speech bubble, cheerful smile.* |
+| `chemistry/lab-glassware.png` | *Two glass laboratory flasks side by side: an Erlenmeyer flask with bright blue liquid (#58B0F4) and a smaller round-bottom flask with pink liquid (#F080B0), small bubbles, a few soft mint-green leaves behind them on one side.* **Decorative — not tied to any experiment.** |
 
 ### Priority 2 — EQUI poses (assistant states)
 
@@ -105,14 +124,14 @@ These depict chemistry and must match the approved scientific content. Do **not*
 | `chemistry/molecules.png` | Decorative molecule cluster | *A few glossy ball-and-stick molecule models in blue, white and coral red, floating loosely.* | Decorative only; must not represent a specific reaction unless approved |
 | `chemistry/catalyst.png` | A10 explorer icon | *A small glossy chip-shaped catalyst pellet with a gentle glow.* | 🟡 #15, #32 (reaction not yet named) |
 
-## 5. Technical delivery specification
+## 6. Technical delivery specification
 
 - **Master:** PNG, 2048 × 2048 px (or the generator's maximum), sRGB, transparent background (alpha channel).
 - **Web exports (Claude):** WebP and PNG fallback at 1× and 2× display size. File names in lower case with hyphens, as listed above.
 - **Folders:** `public/assets/illustrations/{robot,pathways,chemistry,ui,backgrounds}/`.
 - **Alt text:** written in Arabic and English for every asset; decorative assets marked as decorative.
 
-## 6. Provenance record (one entry per asset in `public/assets/illustrations/assets-manifest.json`)
+## 7. Provenance record (one entry per asset in `public/assets/illustrations/assets-manifest.json`)
 
 ```json
 {
@@ -130,7 +149,7 @@ These depict chemistry and must match the approved scientific content. Do **not*
 }
 ```
 
-## 7. Consistency checklist (applied to every candidate)
+## 8. Consistency checklist (applied to every candidate)
 
 - [ ] Light comes from the upper left; shadows are soft.
 - [ ] Glossy finish matches the reference books, rocket and target.
@@ -141,7 +160,7 @@ These depict chemistry and must match the approved scientific content. Do **not*
 - [ ] EQUI matches the mascot specification exactly (visor, eyes, headphones).
 - [ ] Chemistry assets: scientifically approved before use.
 
-## 8. Questions for the owner
+## 9. Questions for the owner
 
 1. Which image generator will you use? Its licence terms go into the provenance record.
 2. Is the Priority 1 list complete for the first visual review?

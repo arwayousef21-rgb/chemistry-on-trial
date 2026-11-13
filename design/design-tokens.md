@@ -53,7 +53,7 @@ All colours were sampled from `public/reference/primary-dashboard-reference.jpg`
 | Use | Size / line height | Weight | Font |
 |---|---|---|---|
 | Display (banner) | 36 / 44 px | 800 | Cairo (Arabic) · Inter (English) |
-| Pathway title pill | 21–23 px, tight leading | 700 | ″ |
+| Pathway title pill | 21–22 px, balanced wrapping | 700 | ″ |
 | H2 | 26 / 34 px | 700 | ″ |
 | H3 | 20 / 28 px | 700 | ″ |
 | Body | 17 / 28 px | 500 | ″ |
@@ -74,9 +74,9 @@ Fonts are bundled with the site (no requests to Google from students' browsers).
 | `shadow.card` | `0 8px 24px rgba(24,54,96,0.08)` |
 | `shadow.raised` | `0 12px 32px rgba(24,54,96,0.12)` |
 | `shadow.button` | `0 4px 12px rgba(24,54,96,0.14)` |
-| Navigation height | 72 px |
+| Navigation height | 84 px desktop · 64 px mobile |
 | Side column | 300 px |
-| Max page width | 1440 px |
+| Max page width | 1536 px (matches the reference) |
 | Gutters | 32 px desktop · 16 px mobile |
 
 ## Accessibility contrast (WCAG AA)
