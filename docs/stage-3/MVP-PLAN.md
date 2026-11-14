@@ -1,7 +1,7 @@
 # Stage 3 — MVP plan (zero cost)
 
 **Decisions:** `content/ARCHITECTURE_DECISIONS.md` D15 (architecture and student access), D16 (EQUI), D17 (milestone authorisation).
-**Status:** M0 complete (local development and CI). Later milestones need the owner's explicit approval. Nothing is deployed.
+**Status:** M0 and M1 complete (local development, synthetic data). Later milestones need the owner's explicit approval. Nothing is deployed.
 
 ## 1. Architecture
 
@@ -16,7 +16,7 @@
 
 Development and CI run the whole stack locally with `wrangler dev --local` and synthetic data. No Cloudflare account is needed until go-live.
 
-## 2. Student access flow (to be built in M1)
+## 2. Student access flow (built in M1)
 
 | Situation | Behaviour |
 |---|---|
@@ -30,7 +30,7 @@ Development and CI run the whole stack locally with `wrangler dev --local` and s
 - Email is unique per record; a phone number shared by two records is flagged for the teacher.
 - The device session is a long random key kept in the browser; the database stores only its hash.
 - The resume check answers only "match" or "no match". It never returns another student's details, and repeated failed attempts are rate-limited.
-- The teacher account is separately protected (passphrase-based session; finalised in M1/M4).
+- The teacher account is separately protected: one strong password kept as a server-side secret, a 12-hour session, and sign-in rate limiting (D18).
 
 ### Limitation (shown to the owner and documented)
 
@@ -40,12 +40,14 @@ Matching email + phone **is not identity verification**:
 
 Assessments are for **learning and research under supervision**, not for high-stakes formal grading.
 
-## 3. Simple data model (planned for M1–M2)
+## 3. Simple data model (✅ = built)
 
 | Table | Holds |
 |---|---|
-| `students` | ID, research code (e.g. `S-0042`), full name, email (unique), phone, consent time, registered, last active, duplicate-phone flag |
-| `device_sessions` | Session-key hash, student, created, last used |
+| `students` ✅ | ID, research code (e.g. `S-0042`), full name, email (unique), phone, consent time, registered, last active, duplicate-phone flag |
+| `device_sessions` ✅ | Session-key hash, student, created, last used |
+| `teacher_sessions` ✅ | Session-key hash, created, expires |
+| `rate_limits` ✅ | Attempt counters for registration, resume and teacher sign-in |
 | `attempts` | Student, type (pre / post / checkpoint), form, times, score, pathway assigned, thresholds used |
 | `answers` | Attempt, question, answer, correct, concept |
 | `progress` | Student, lesson/activity, status, saved position, updated |
@@ -71,7 +73,7 @@ A **research export** contains the same sheets with research codes only (no name
 | # | Milestone | Status |
 |---|---|---|
 | M0 | Local setup and CI: Worker + D1 locally, migrations, synthetic seed, switchable data layer, API health check, design-protection tests | ✅ Complete |
-| M1 | Student access (flow above) + teacher sign-in | Needs approval |
+| M1 | Student access (flow above) + teacher sign-in (student register) | ✅ Complete |
 | M2 | Pre-test, server grading, pathway assignment (50 / 80), live dashboard | Needs approval |
 | M3 | Unit 0–1 lessons, simulations, checkpoints, progress; EQUI search | Needs approval |
 | M4 | Teacher dashboard, Excel / CSV / research export, backup reminder | Needs approval |

@@ -116,7 +116,7 @@ Not yet authorised at that time: Stage 3 implementation and merging into `main`.
 
 **Important limitation:** matching email + phone **is not identity verification**. Anyone who knows both can resume that record, and anyone can register with false details. Assessments are therefore for **learning and research purposes under supervision, not high-stakes formal grading**.
 
-**Data protection:** the database is reachable only through the server API. The public interface never returns another student's record. Lookups during resume return only "match / no match", never record details. Official answer keys stay on the server. The **teacher account is separately protected** (passphrase-based session; method finalised in M1/M4).
+**Data protection:** the database is reachable only through the server API. The public interface never returns another student's record. Lookups during resume return only "match / no match", never record details. Official answer keys stay on the server. The **teacher account is separately protected** (see D18).
 
 **Teacher exports:** Excel (.xlsx) and CSV with name, email, phone, registration and participation, pre/post results, pathway, activity progress and concept performance; plus a coded-ID research export without personal details. Regular Excel exports form part of the backup routine, alongside D1 Time Travel (7-day restore).
 
@@ -127,4 +127,11 @@ EQUI is a **content-based learning assistant, not a generative AI model**. It ru
 
 ## D17 — Stage 3 milestone authorisation
 M0 (local development setup and CI, synthetic data, no external accounts, no deployment) is authorised. Later milestones and any deployment or merge into `main` each require explicit approval.
+
+## D18 — Teacher access: one strong password (2026-11-14)
+- The teacher signs in with **one strong password only**: no Google sign-in, no authenticator app, no extra verification steps. The teacher dashboard stays easy to reach at `#/teacher`.
+- The password is a **server-side secret** (`TEACHER_PASSWORD`, set with `wrangler secret put` at go-live). It is never in frontend code or GitHub. Local development uses a git-ignored `.dev.vars` file with a synthetic password.
+- A successful sign-in creates a 12-hour teacher session in a secure HttpOnly cookie. Sign-in attempts are limited to 5 per 15 minutes per address (and 30 overall).
+- Teacher-only data and functions (the student register now; exports later) require that session. A student session never grants teacher access.
+- M1 (student access flow + teacher sign-in) authorised by the owner on 2026-11-14.
 

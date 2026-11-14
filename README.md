@@ -5,7 +5,7 @@
 
 A bilingual (Arabic RTL / English LTR) adaptive learning platform on **Chemical Equilibrium** for Egyptian secondary-school students.
 
-> **Current status: Stage 3 — M0 (local development setup and CI) complete.**
+> **Current status: Stage 3 — M1 (student access + teacher sign-in) complete, locally with synthetic data.**
 > Stage 2 (visual foundation) approved at commit `35a77b9`. Synthetic data only. No Cloudflare account, no real student data, no AI API, nothing deployed.
 > Plan: `docs/stage-3/MVP-PLAN.md` · Decisions: `content/ARCHITECTURE_DECISIONS.md` (D15–D17).
 
@@ -37,6 +37,8 @@ npm run db:reset:local # recreate the local database with synthetic data
 ```
 
 - `http://localhost:8787/api/health` shows whether the local database is reachable.
+- **Teacher password (local):** copy `.dev.vars.example` to `.dev.vars` and choose a long passphrase. `.dev.vars` is git-ignored. At go-live the real password is set with `npx wrangler secret put TEACHER_PASSWORD`, never in code or GitHub.
+- **Teacher dashboard:** open `#/teacher` (for example `http://localhost:8787/#/teacher`).
 - **Screenshot baselines** (`tests/e2e/__screenshots__/`) are the approved Stage 2 design. Update them with `npm run test:e2e:update` **only** after the owner approves a visual change.
 
 ## Architecture (Stage 3 MVP, zero cost)
@@ -48,7 +50,7 @@ npm run db:reset:local # recreate the local database with synthetic data
 | Configuration | `wrangler.jsonc` (local placeholder database ID until go-live) |
 | CI | `.github/workflows/ci.yml`: type check, unit tests, build, browser tests; no secrets, never deploys |
 
-**Student access (from M1):** full name + email + Egyptian mobile number. Students stay signed in on the same device, resume on a new device with email + phone, and can press "Not you?" on shared devices. No passwords, verification or return codes. **Email + phone matching is not identity verification**, so assessments are for learning and research, not high-stakes grading.
+**Student access (built in M1):** full name + email + Egyptian mobile number. Students stay signed in on the same device, resume on a new device with email + phone, and can press "Not you?" on shared devices. No passwords, verification or return codes. **Email + phone matching is not identity verification**, so assessments are for learning and research, not high-stakes grading.
 
 Add `?lang=en` or `?lang=ar` to the address to open a specific language. The language switch in the top bar also changes it, and the choice is remembered in the browser.
 
