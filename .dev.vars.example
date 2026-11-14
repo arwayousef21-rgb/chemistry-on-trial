@@ -1,0 +1,4 @@
+# Copy to .dev.vars for LOCAL development only (.dev.vars is git-ignored).
+# The real teacher password is set at go-live with:  npx wrangler secret put TEACHER_PASSWORD
+# Use a long passphrase (16+ characters). Never commit a real password.
+TEACHER_PASSWORD=change-me-to-a-long-local-passphrase

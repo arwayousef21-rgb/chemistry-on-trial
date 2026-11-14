@@ -4,6 +4,11 @@ export interface Env {
   ASSETS: Fetcher;
   /** D1 database (local SQLite in development and CI). */
   DB: D1Database;
-  /** "development" locally; set to "production" only at go-live. */
+  /** "development" locally; "production" only at go-live. */
   APP_ENV: string;
+  /**
+   * Teacher password — a server-side SECRET. Never in frontend code or GitHub.
+   * Local development: `.dev.vars` (git-ignored). Go-live: `wrangler secret put TEACHER_PASSWORD`.
+   */
+  TEACHER_PASSWORD?: string;
 }

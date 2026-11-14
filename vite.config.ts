@@ -5,10 +5,13 @@ import { fileURLToPath, URL } from 'node:url';
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@shared': fileURLToPath(new URL('./shared', import.meta.url)),
+    },
   },
   test: {
     environment: 'node',
-    include: ['src/**/*.test.ts', 'worker/src/**/*.test.ts'],
+    include: ['src/**/*.test.ts', 'worker/src/**/*.test.ts', 'shared/**/*.test.ts'],
   },
 });
