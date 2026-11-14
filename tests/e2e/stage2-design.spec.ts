@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { registerViaApi } from './helpers';
 
 /**
  * Protects the approved Stage 2 design (D14, commit 35a77b9).
@@ -7,8 +8,12 @@ import { expect, test, type Page } from '@playwright/test';
  */
 async function open(page: Page, lang: 'ar' | 'en', width = 1536, height = 1024) {
   await page.setViewportSize({ width, height });
+  // The dashboard is shown to a recognised student: register a synthetic one in this browser first.
+  const { res } = await registerViaApi(page.request);
+  expect(res.status()).toBe(201);
   await page.goto(`/?lang=${lang}#/`);
   await page.evaluate(() => document.fonts.ready);
+  await page.locator('article').first().waitFor();
   // Wait until every illustration inside the visible screen has loaded
   // (images further down are lazy-loaded and are not needed for these checks).
   await page.waitForFunction(() =>

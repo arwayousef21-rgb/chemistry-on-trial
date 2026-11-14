@@ -6,7 +6,7 @@ test.describe('local API and database (synthetic data)', () => {
     expect(res.status()).toBe(200);
     expect(res.headers()['cache-control']).toBe('no-store');
     expect(res.headers()['access-control-allow-origin']).toBeUndefined();
-    expect(await res.json()).toMatchObject({ ok: true, db: 'ok', schemaVersion: '1', dataset: 'synthetic' });
+    expect(await res.json()).toMatchObject({ ok: true, db: 'ok', schemaVersion: '2', dataset: 'synthetic' });
   });
 
   test('unknown routes and wrong methods are rejected', async ({ request }) => {

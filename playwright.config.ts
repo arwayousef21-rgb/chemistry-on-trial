@@ -20,7 +20,8 @@ export default defineConfig({
     trace: 'off',
   },
   webServer: {
-    command: 'npm run db:migrate:local && npm run db:seed:local && npx wrangler dev --local --port 8787',
+    // Synthetic, test-only teacher password (not a real secret); the real one is a Cloudflare secret.
+    command: 'npm run db:reset:local && npx wrangler dev --local --port 8787 --var TEACHER_PASSWORD:synthetic-local-teacher-passphrase',
     url: 'http://localhost:8787/api/health',
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
