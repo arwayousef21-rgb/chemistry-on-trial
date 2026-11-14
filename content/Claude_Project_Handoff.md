@@ -1,3 +1,184 @@
+# THE EQUILIBRIUM MISSION — مهمة الاتزان
+## Claude Code Project Handoff — CURRENT SOURCE OF TRUTH (updated 2026-11-14)
+
+> **Read this section first.** It describes the project as it stands now.
+> The **original implementation brief** (written before the owner's later decisions) is kept **unchanged** in the appendix at the end of this file. Where the appendix conflicts with this section or with `content/ARCHITECTURE_DECISIONS.md`, **this section and the decision record win**.
+> **All chemistry** comes only from `content/Chemistry_On_Trial_Scientific_Content_REVISED.md`.
+
+---
+
+## 1. Project purpose
+
+- **What:** a bilingual (Arabic RTL / English LTR), adaptive, inquiry-based learning platform for the **Chemical Equilibrium** unit.
+- **Who:** Egyptian third-year secondary-school students. **Owner:** Miss Arwa Yousef (teacher and researcher).
+- **Research:** an educational research project (Design-Based Research). It needs a diagnostic pre-test, adaptive pathways, formative assessment, a parallel post-test, learning gains, and teacher Excel exports.
+- **Platform name:** Arabic interface **مهمة الاتزان**; English interface **THE EQUILIBRIUM MISSION**; browser title and README **مهمة الاتزان – THE EQUILIBRIUM MISSION**.
+- **Tagline:** اكتشف أسرار التفاعلات… وتحدَّ قوى التغيير! / *Explore the Secrets of Reactions. Challenge the Forces of Change.*
+- **Module subtitle:** الاتزان الكيميائي / Chemical Equilibrium.
+- **Unchanged names:** the repository `chemistry-on-trial`; the assistant **EQUI – رفيق الكيمياء الذكي**.
+
+## 2. Source files — exact names and locations (do not rename, move or rewrite)
+
+| File | Role | Status |
+|---|---|---|
+| `content/Chemistry_On_Trial_Scientific_Content_REVISED.md` | **Sole authority for all scientific content.** Holds 12 `Teacher confirmation required` items and 3 `HOLD` sections; §15 lists 42 open teacher decisions | Owner-supplied. **Never edited.** git blob `b68e253e` |
+| `content/ARCHITECTURE_DECISIONS.md` | Decision record D1–D18 (overrides this file's appendix where they conflict) | Current |
+| `content/Claude_Project_Handoff.md` | This file (current state + original brief as appendix) | Current |
+| `public/reference/primary-dashboard-reference.jpg` | Mandatory visual reference | Approved |
+| `design/concept-mapping.md` | 35 concepts → objectives → question slots → misconceptions → activities | **Draft, awaiting owner approval** |
+| `design/3d-illustration-style-guide.md`, `design/design-tokens.md` | Visual system documentation | Approved with Stage 2 |
+| `docs/stage-3/MVP-PLAN.md` | Stage 3 MVP plan and milestones | Current |
+
+## 3. Approved Stage 2 visual design — must be preserved
+
+- **Approved at commit `35a77b9`** (D14). Covers: the Arabic/English dashboards; the three pathway cards and colours; the six original 3D illustrations; the EQUI character; the desktop, tablet and phone layouts; typography, spacing and design tokens.
+- **Colours:** Remedial blue `#1866B4`; Corrective & Reinforcement green `#00845A`; Enrichment purple `#784EAE`; navy top bar `#183660`; score ring `#049870` with `#04AC7C` highlight.
+- **Fonts:** Cairo (Arabic) and Inter (English), bundled with the site. Equations use KaTeX, always left-to-right.
+- **Tokens** live in `src/styles/tokens.ts`. 3D asset registry: `src/assets/illustrations.ts`. Blender sources: `design/3d-source/`.
+- **The only approved change since `35a77b9`:** the top-bar "خروج / Exit" placeholder became **"لست أنت؟ / Not you?"** (M1). The footer label changed to "Development preview".
+- **Automatic protection:** `tests/e2e/stage2-design.spec.ts` checks the layout strictly and compares screenshots with the baselines in `tests/e2e/__screenshots__/`. **Never update the baselines without the owner's approval.**
+
+## 4. Settled decisions — do not reopen (details in `content/ARCHITECTURE_DECISIONS.md`)
+
+- **Zero-cost requirement (D15):** no paid subscriptions, APIs, AI models, hosting, databases, email services or add-ons. No credit card or billing account. No trials that convert to paid plans. Free tiers are assumed to be changeable, so the data layer stays portable.
+- **Architecture (D15):** Cloudflare free plan.
+  - **Implemented now:** one **Cloudflare Worker** serves the built site (`dist/`, as static assets — the role Pages would play) and the API under `/api/*`, with a **D1** database (SQLite).
+  - **Not used:** Supabase, Firebase and paid AI.
+  - **Free public address:** `*.workers.dev` or `*.pages.dev`, chosen at go-live.
+- **Student registration and access (D15):**
+  - **First visit:** **full name, email, Egyptian mobile number** (010/011/012/015, 11 digits) plus a consent tick. Creates **one** record and starts a persistent device session.
+  - **Same device:** recognised automatically.
+  - **New device:** **"لدي حساب بالفعل / I already have an account"** asks for **email + phone only**. A match resumes that record; no match shows a clear error ("check details or contact the teacher"). **Resuming never creates a record.**
+  - **Shared devices:** **"لست أنت؟ / Not you?"** clears the local session and returns to the welcome screen.
+  - **No passwords, no email verification, no return codes** (return codes were removed completely). No other personal data.
+  - **Email + phone is NOT identity verification.** Assessments are for **learning and research under supervision, not high-stakes formal grading**.
+- **Teacher access (D18):** **one strong password only**: no Google sign-in, no authenticator app, no extra steps.
+  - Stored as the server secret `TEACHER_PASSWORD` (local: git-ignored `.dev.vars`; go-live: `npx wrangler secret put TEACHER_PASSWORD`). **Never in frontend code or GitHub.**
+  - A sign-in lasts 12 hours. Attempts are limited to 5 per 15 minutes per address. The dashboard is at `#/teacher`.
+- **Three pathways (D3):** Remedial (blue, books), Corrective & Reinforcement (green, target), Enrichment (purple, rocket).
+- **Thresholds (D4):** pre-test score **< 50% → Remedial; 50% to < 80% → Corrective & Reinforcement; ≥ 80% → Enrichment**.
+  - Teacher-configurable, validated (lower < upper), versioned.
+  - Every pathway decision stores the score, the thresholds used and the settings version.
+- **Concept-level support (D5):** weak concepts trigger targeted recommendations **without** changing the main pathway.
+- **Pathway changes (D6):** **no automatic pathway transitions until the owner approves explicit rules.** Teacher overrides are always allowed, with a recorded reason.
+- **Assessment (D7):** pre-test (form A), formative checks, parallel post-test (form B: same objectives, new questions, comparable difficulty). Research measures: raw pre/post scores and per-concept raw gains. **Normalised gain is not final** until reviewed with the supervisor.
+- **EQUI (D8, D16):** a **content-based assistant, not generative AI**.
+  - Searches **approved** materials only, in the browser, and shows sources.
+  - Gives pre-authored definitions, examples and step-by-step hints; recommends activities; helps with navigation.
+  - Says when something is not covered. **Off during official pre-tests and post-tests.** No paid AI API.
+- **Scientific content approval (D10):** every item is approved, pending or on hold. Claude may **draft** content **from approved scientific content only**; drafts stay **pending and hidden from students** until the owner approves them. Approval is tied to the exact wording.
+- **Simulations vs virtual labs (D11):**
+  - **Simulations:** conceptual exploration of variables.
+  - **Virtual labs:** guided procedure, apparatus, observations, data interpretation.
+- **Data:** synthetic data only during development. No real student data until the owner approves.
+- **Process (D13, D17):** each milestone needs explicit approval. **No deployment, no merge into `main`, no account creation** without explicit approval.
+
+## 5. Required Chemical Equilibrium learning unit — content status
+
+**Legend:**
+- **APPROVED SOURCE** = in the scientific specification without a flag.
+- **PENDING** = in the specification but flagged `TEACHER CONFIRMATION REQUIRED`.
+- **HOLD** = flagged `HOLD — NOT FOR STUDENT DISPLAY`.
+- **DRAFTED** = Claude has drafted it; awaiting the owner's approval.
+- **NOT CREATED** = does not exist yet.
+
+**No lesson text, question, explanation, feedback text, hint or EQUI entry has been written yet.** Only the concept mapping draft exists.
+
+| # | Topic (spec section; code unit) | Approved source material | Pending / on hold in the spec | Drafted (awaiting approval) | Not yet created |
+|---|---|---|---|---|---|
+| 1 | **Dynamic Equilibrium** (§2; Unit 0) | Reversible reactions; dynamic nature; equal rates ≠ equal concentrations; dynamic-equilibrium activity requirements (§2.4) | Closed-system wording (#3); activity and qualitative rate graph approval (#7, #8); reversible-reaction opening wording (#33); contrast with irreversible reactions (#38) | Concept mapping `U0.*` (4 concepts) | Lessons, questions, feedback, hints, simulation A1, EQUI entries |
+| 2 | **Le Chatelier's Principle** (§3; Unit 1) | Principle; concentration-shift table; molecular model replacing the water-vessel analogy; concentration lab requirements | — | `U1.*` (4 concepts); A2 proposed as a simulation | Lessons, questions, feedback, hints, A2, EQUI entries |
+| 3 | **Law of Mass Action and Reaction Rates** (§4; Unit 2) | FeCl₃ + 3NH₄SCN ⇌ Fe(SCN)₃ + 3NH₄Cl; r_f, r_b; K_c = k_f/k_b; rate-graph requirements; "deeper/paler red" model | Colour wording (#21); FeCl₃ model note (#35). **HOLD:** HI concentration–time graph (#1, #22, #42) | `U2.*` (6 concepts) | Lessons, questions, FeCl₃ virtual lab A3, rate-graph activity, EQUI entries |
+| 4 | **Equilibrium Constant K_c** (§5–6; Unit 3) | General expression and construction steps; omission of pure solids/liquids; examples A–C; reversal and multiplication rules | Solids/liquids wording (#4); state-symbol glossary incl. (v) (#5); meaning of large/small K_c (#10); reversal/multiplication examples (#26). **HOLD:** both HI numerical examples (K_c ≈ 50 and 55.16), equilibrium check (#16, #27). **No approved numerical K_c example exists** | `U3.*` (6 concepts) | Lessons, questions, K_c builder A5; calculator A6 stays held |
+| 5 | **Effect of Temperature** (§7; Unit 4) | Exothermic/endothermic rules; shift table; temperature changes K; ammonia example (ΔH = −92 kJ); NO₂/N₂O₄ observations | Explanation of why temperature changes K (#6); three-position control (#9); "+Heat" with ΔH (#36); 0 °C "colourless" vs "almost colourless" (#37); temperature vs rate wording (#24); sign of ΔH (#25) | `U4.*` (4 concepts) | Lessons, questions, NO₂/N₂O₄ virtual lab A7, EQUI entries |
+| 6 | **Pressure, Volume and K_p** (§8; Unit 5) | Gas-mole rules; ammonia and CO/NO₂ examples; P_total = 2 + 5 + 7 = 14 atm; K_p expression; **K_p = 20** (N₂/O₂/NO₂) | Pressure–volume reasoning (#18–20); K_c/K_p units (#11); rounding and tolerance (#12); HCl worked question and conditions (#13, #14, #29); phase step in the K_p builder (#28); gas added at constant volume (#39) | `U5.*` (7 concepts) | Lessons, questions, piston simulation A8, K_p builder/calculator A9, EQUI entries |
+| 7 | **Effect of Catalysts** (§9; Unit 6) | Alternative pathway; lower activation energy; both rates increase; K and position unchanged; energy-profile requirements | Equal lowering of both barriers wording (#23); SO₃ example's purpose (#15); which reaction the simulation names (#32) | `U6.*` (4 concepts) | Lessons, questions, catalyst explorer A10, EQUI entries |
+
+**Content outside the seven topics**
+
+| Item | Approved source | Pending | Drafted | Not yet created |
+|---|---|---|---|---|
+| Misconceptions M1–M18 | §11 | — | Linked in the concept mapping | Comparison activities |
+| Extra reactions (§10) | Listed in the spec | **All five need approval** (#17, #31) | — | — |
+| Arabic glossary (§14) | Draft in the spec | **Whole glossary** (#2) | — | — |
+| Assessment blueprint | §12 (question types, required fields, what must not be assessed) | — | — | **Pre-test form A, post-test form B, formative checkpoints, retests, answer keys, feedback texts — none written** |
+| Concept mastery criteria (weak/developing/mastered) | — | Owner decision | — | **Not proposed yet** (to follow approval of the concept mapping) |
+| Pathway content (Remedial / Corrective / Enrichment) | Pathway purposes (D3) | — | Dashboard card text (provisionally approved; scientific wording to be reviewed) | All pathway lessons, activities and challenges. **Enrichment needs an owner-approved set of reactions and values (#31)** |
+| EQUI knowledge base | D16 design | — | — | **Not created** (definitions, explanations, hint ladders, comparisons, platform help) |
+| Simulations and virtual labs A1–A10 | §13 requirements | A1 (#7), A7 (#9, #37), A10 (#15, #32); **A4 and A6 on HOLD** | Classification proposed in the concept mapping | **None built** |
+| Teacher dashboard | D9 requirements | — | — | Built so far: password sign-in + student register only. **Not built:** analytics, overrides, threshold settings, Excel/CSV/research export |
+| Student welcome and consent wording | — | — | **Drafted** in `src/translations/{ar,en}.ts` (welcome, consent, privacy note) | Final consent and retention wording from the owner or institution |
+
+## 6. Implementation status
+
+| Milestone | Scope | Status |
+|---|---|---|
+| Stage 1–2 | Audit; visual foundation; 3D assets; branding | ✅ Approved (D14, `35a77b9`) |
+| **M0** | Local Worker + D1 stack, migrations, synthetic seed, data layer, CI, design-protection tests | ✅ Complete. CI passed (run #1, `0803901`) |
+| **M1** | Student registration / same-device / new-device resume / Not you?; teacher password sign-in + protected student register; rate limits; record isolation | ✅ Complete. CI passed (run #2, `b73ac6b`) |
+| M2 | Pre-test (form A), server-side grading, concept results, pathway assignment (50 / 80) with thresholds recorded, live dashboard | ⛔ **Not started: needs owner approval** |
+| M3 | Unit 0–1 lessons, simulations, checkpoints, progress; EQUI search | ⛔ Not started |
+| M4 | Teacher dashboard (analytics, overrides, settings), Excel / CSV / research export, backup reminder | ⛔ Not started |
+| M5 | Post-test (form B), learning gains, student report | ⛔ Not started |
+| M6 | Go-live: owner creates a free Cloudflare account; deployment only on explicit request | ⛔ Not started |
+| M7 | Units 2–6 (approved content only) | ⛔ Not started |
+
+**Known temporary behaviour:** after registration the dashboard still shows the **synthetic** diagnostic data (65%, Corrective) from `src/data/synthetic/demoStudent.ts`. M2 replaces this with each student's real results.
+
+## 7. Repository facts
+
+- **Branch:** `claude/chemistry-on-trial-setup-jqety8`. Never push to `main`; never merge.
+- **Latest commit:** see `git log -1`. At the end of M1 it was `b73ac6b`; this handoff update is committed immediately after.
+- **Important paths:**
+  - Server: `worker/src/` (`index.ts`, `router.ts`, `routes/{health,students,teacher}.ts`, `cookies.ts`, `crypto.ts`, `rateLimit.ts`, `request.ts`)
+  - Database: `migrations/0001_app_meta.sql`, `migrations/0002_student_access.sql`; synthetic data `seed/synthetic.sql`
+  - Shared validation: `shared/validation.ts`
+  - Frontend: `src/pages/` (`StudentDashboard`, `WelcomePage`, `TeacherPage`, `DesignSystemPage`); `src/data/` (`DataService`, `StudentSessionProvider`, `apiClient`); `src/components/`; `src/translations/{ar,en}.ts`
+  - Config: `wrangler.jsonc` (placeholder local database ID until go-live); `.dev.vars.example` (copy to git-ignored `.dev.vars`)
+  - Tests: `tests/e2e/*.spec.ts`; unit tests `**/*.test.ts`; CI `.github/workflows/ci.yml` (no secrets, never deploys)
+- **Commands:**
+  - `npm ci` — install
+  - `npm run typecheck` — site + Worker types
+  - `npm test` — unit tests (34)
+  - `npm run build` — production build into `dist/`
+  - `npx playwright test` — browser tests (29); starts its own local Worker with a fresh synthetic database. Set `CI=1` to force a fresh server
+  - `npm run dev:full` — full local stack at http://localhost:8787
+  - `npm run dev` — design-only preview at http://localhost:5173 (demo mode, no API)
+- **Last verified results:** type check ✅ · unit tests 34/34 ✅ · build ✅ · browser tests 29/29 ✅ · GitHub CI ✅ (runs #1 and #2).
+
+## 8. Next task — and what must NOT be started
+
+- **Next:** wait for the owner's explicit approval of **M2**. Before M2 can be finished with real content, the owner must approve (or ask Claude to draft from approved content):
+  - the concept mapping;
+  - pre-test form A questions (until then, M2 may use clearly labelled **synthetic placeholder questions**);
+  - concept mastery criteria.
+- **Do NOT start without explicit approval:**
+  - M2 or any later milestone;
+  - deployment or Cloudflare account creation;
+  - merging into `main`;
+  - real student data;
+  - paid services of any kind;
+  - changes to the approved Stage 2 design or screenshot baselines;
+  - automatic pathway transitions;
+  - normalised gain;
+  - any scientific content not drafted from the approved specification.
+- **Open owner decisions:**
+  - Approval of the concept mapping.
+  - Mastery criteria.
+  - Pathway-transition rules (D6).
+  - Threshold scope and who may edit thresholds.
+  - Boundary rounding.
+  - Consent and retention wording.
+  - The free address name.
+  - The 42 items in §15 of the scientific specification.
+
+---
+---
+
+# APPENDIX — Original implementation brief (preserved unchanged)
+
+> Historical record of the owner's original brief. **Superseded** where it conflicts with Section 1–8 above or with `content/ARCHITECTURE_DECISIONS.md`. Superseded points include: two pathways (now three); "ARWA AI" (now EQUI, content-based); no login and local storage only (now Cloudflare D1 with the access flow above); the title "Chemistry on Trial" (now THE EQUILIBRIUM MISSION).
+
 # CHEMISTRY ON TRIAL — الكيمياء في قفص الاتهام
 ## Claude Code Project Handoff — Revised Implementation Brief
 
