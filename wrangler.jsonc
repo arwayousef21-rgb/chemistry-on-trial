@@ -1,0 +1,28 @@
+// Cloudflare configuration for THE EQUILIBRIUM MISSION (D15).
+// M0: used only for LOCAL development and CI (`wrangler dev --local`). Nothing is deployed.
+// The database_id below is a placeholder for the local database; the real ID is set
+// at go-live, after the owner creates a free Cloudflare account and approves deployment.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "equilibrium-mission",
+  "main": "worker/src/index.ts",
+  "compatibility_date": "2025-11-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "equilibrium-mission-db",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "APP_ENV": "development"
+  },
+  "observability": { "enabled": false }
+}

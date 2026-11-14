@@ -1,5 +1,5 @@
 import { useI18n } from '@/i18n/I18nProvider';
-import { demoStudent } from '@/data/synthetic/demoStudent';
+import { useDataService } from '@/data/DataProvider';
 import { InfoNote, IllustrationSlot } from '@/components/ui';
 import { HeroBanner } from '@/components/learning/HeroBanner';
 import { PathCard } from '@/components/learning/PathCard';
@@ -13,7 +13,7 @@ const PATHWAYS: PathwayId[] = ['remedial', 'corrective', 'enrichment'];
 /** Student dashboard (Stage 2 visual foundation, synthetic data only). */
 export function StudentDashboard() {
   const { t, lang, format } = useI18n();
-  const s = demoStudent;
+  const s = useDataService().getDashboard();
 
   const sideColumn = (
     <div className="space-y-5">
