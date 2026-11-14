@@ -1,8 +1,9 @@
 import { Atom, BarChart3, House, LogOut, Settings } from 'lucide-react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useI18n } from '@/i18n/I18nProvider';
 import { cn } from '@/components/ui';
 import { LanguageSwitch } from './LanguageSwitch';
+import { useStudentSession } from '@/data/StudentSessionProvider';
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
   cn(
@@ -17,6 +18,16 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
  */
 export function TopNav() {
   const { t } = useI18n();
+  const { mode, student, signOut } = useStudentSession();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  // "Not you?" (D15) takes the place of the reference's Exit button when a student is signed in here.
+  const showNotYou = mode === 'api' && !!student && pathname !== '/teacher';
+  const hideExit = mode === 'api' && !student;
+  const onNotYou = async () => {
+    await signOut();
+    navigate('/');
+  };
   return (
     <header className="sticky top-0 z-30 bg-navy-900 text-white shadow-[0_2px_12px_rgba(24,54,96,0.25)]">
       <div className="mx-auto flex max-w-page flex-wrap items-center gap-x-4 gap-y-1 px-4 pb-1 pt-2 md:px-8 lg:h-nav lg:flex-nowrap lg:py-0">
@@ -44,16 +55,30 @@ export function TopNav() {
             <span className="hidden lg:inline">{t.nav.help}</span>
             <span className="sr-only lg:hidden">{t.nav.help}</span>
           </NavLink>
-          <button
-            type="button"
-            disabled
-            title={t.nav.exitDisabled}
-            aria-label={`${t.nav.exit} — ${t.nav.exitDisabled}`}
-            className="flex min-h-[44px] flex-col items-center justify-center px-2 text-[14px] font-semibold text-white/50"
-          >
-            <LogOut aria-hidden className="h-6 w-6 rtl:-scale-x-100" />
-            <span>{t.nav.exit}</span>
-          </button>
+          {showNotYou ? (
+            <button
+              type="button"
+              onClick={onNotYou}
+              aria-label={t.access.notYouLabel}
+              className="flex min-h-[44px] flex-col items-center justify-center rounded-pill px-2 text-[14px] font-semibold text-white transition hover:bg-white/10"
+            >
+              <LogOut aria-hidden className="h-6 w-6 rtl:-scale-x-100" />
+              <span>{t.access.notYou}</span>
+            </button>
+          ) : (
+            !hideExit && (
+              <button
+                type="button"
+                disabled
+                title={t.nav.exitDisabled}
+                aria-label={`${t.nav.exit} — ${t.nav.exitDisabled}`}
+                className="flex min-h-[44px] flex-col items-center justify-center px-2 text-[14px] font-semibold text-white/50"
+              >
+                <LogOut aria-hidden className="h-6 w-6 rtl:-scale-x-100" />
+                <span>{t.nav.exit}</span>
+              </button>
+            )
+          )}
         </nav>
         <div className="order-2 shrink-0 lg:order-none">
           <LanguageSwitch />

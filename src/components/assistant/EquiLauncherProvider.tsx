@@ -20,7 +20,8 @@ export function EquiLauncherProvider({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
   const open = useCallback(() => setOpen(true), []);
   // The dashboard has its own EQUI strip (as in the reference), so the floating button is hidden there.
-  const showFloating = pathname !== '/' && !isOpen;
+  // EQUI is for students: hidden in the teacher area.
+  const showFloating = pathname !== '/' && pathname !== '/teacher' && !isOpen;
   return (
     <EquiContext.Provider value={{ open, isOpen }}>
       {children}

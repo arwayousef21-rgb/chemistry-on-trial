@@ -13,3 +13,5 @@ export { Equation } from './Equation';
 export { IllustrationSlot } from './IllustrationSlot';
 export { Sparkle, Rays } from './Decorations';
 export { pathwayStyles } from './pathwayStyles';
+export { TextField } from './TextField';
+export { Checkbox } from './Checkbox';
